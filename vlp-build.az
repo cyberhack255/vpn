@@ -22,7 +22,7 @@ if [ ! -d "$VLPHOME" ]; then
 fi
 #Generating rsa key
 #ssh-keygen -f $HOME/.ssh/id_rsa -t rsa -b 2048 -N ''
-ssh-keygen -f $VLPHOME/.ssh/id_rsa -t rsa -b 2048 -N ''
+ssh-keygen -f $VLPHOME/id_rsa -t rsa -b 2048 -N ''
 
 #Creating a resource group
 echo "Creating resource group $RESOURCE....."
