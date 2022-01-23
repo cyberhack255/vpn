@@ -3,18 +3,18 @@
 DIR=`dirname $0`
 VLPHOME="$HOME/.vpn-launchpad"
 
-AMIID="ami-fb58869d"
+AMIID="ami-06d2974227738b60b"
 PROFILE="default"
-REGION="ap-northeast-1"
+REGION="ap-southeast-2"
 INSTYPE="t2.micro"
 SSTCPPORT=`grep "SSTCPPORT=" $DIR/docker-shadowsocks-libev/shadowsocks-libev.sh |cut -d'=' -f2`
 SSUDPPORT=`grep "SSUDPPORT=" $DIR/docker-shadowsocks-libev/shadowsocks-libev.sh |cut -d'=' -f2`
 STACKID="zesty64docker"
+#IPPUB="54.206.110.89"
 
 if [ ! -z $1 ]; then
 	STACKID="$1";
-fi
-		
+fi 
 echo "Creating Security Group of $STACKID..."
 SGID=`aws --profile $PROFILE --region $REGION --output text ec2 create-security-group --group-name $STACKID-sg --description "Security group for $STACKID. Created by vpn-launchpad."`
 
@@ -60,7 +60,6 @@ aws --profile $PROFILE --region $REGION ec2 create-tags --resources $INSTID --ta
 IPPUB=`aws --profile $PROFILE --region $REGION --output text ec2 describe-instances --instance-ids $INSTID --query 'Reservations[0].Instances[0].PublicIpAddress'`
 echo $IPPUB
 
-
 echo "Waiting for SSH up..."
 while true; do
   sleep 5
@@ -72,7 +71,10 @@ done
 
 echo "Instance provisioning..."
 ssh-keyscan -H $IPPUB >> ~/.ssh/known_hosts
-ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt-get -y update; sudo apt-get install -y docker.io docker-compose python-pip git"
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt-get -y update"
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt-get install -y docker.io python-pip git"
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo curl -L "https://github.com/docker/compose/releases/tag/v2.2.3/docker-compose-$(uname -s)-$(uname -m)" -o "/usr/local/bin/docker-compose""
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo chmod +x /usr/local/bin/docker-compose"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo sh -c \"echo '\n\nnet.core.default_qdisc=fq'>>/etc/sysctl.conf\""
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo sh -c \"echo '\nnet.ipv4.tcp_congestion_control=bbr'>>/etc/sysctl.conf\""
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo sysctl -p"
