@@ -72,7 +72,7 @@ echo "Instance provisioning..."
 ssh-keyscan -H $IPPUB >> ~/.ssh/known_hosts
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt update"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt install -y python-pip git"
-ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt install apt-transport-https ca-certificates curl software-properties-common"
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt install apt-transport-https ca-certificates curl software-properties-common -y"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable""
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "apt-cache policy docker-ce"
