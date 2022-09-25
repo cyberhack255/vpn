@@ -6,7 +6,7 @@ VLPHOME="$HOME/.vpn-launchpad"
 AMIID="ami-fb58869d"
 PROFILE="default"
 REGION="ap-northeast-1"
-STACKID="zesty64docker"
+STACKID="vpnserver"
 
 if [ ! -z $1 ]; then
 	STACKID="$1";
