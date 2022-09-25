@@ -71,7 +71,8 @@ done
 echo "Instance provisioning..."
 ssh-keyscan -H $IPPUB >> ~/.ssh/known_hosts
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt update"
-ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt install -y docker.io python-pip git"
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt install -y python-pip git"
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt install -y docker.io"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo curl -L "https://github.com/docker/compose/releases/download/v2.11.1/docker-compose-$(uname -s)-$(uname -m)" -o "/usr/local/bin/docker-compose""
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo chmod +x /usr/local/bin/docker-compose"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo sh -c \"echo '\n\nnet.core.default_qdisc=fq'>>/etc/sysctl.conf\""
