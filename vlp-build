@@ -9,8 +9,7 @@ REGION="ap-southeast-2"
 INSTYPE="t2.micro"
 SSTCPPORT=`grep "SSTCPPORT=" $DIR/docker-shadowsocks-libev/shadowsocks-libev.sh |cut -d'=' -f2`
 SSUDPPORT=`grep "SSUDPPORT=" $DIR/docker-shadowsocks-libev/shadowsocks-libev.sh |cut -d'=' -f2`
-STACKID="zesty64docker"
-#IPPUB="54.206.110.89"
+STACKID="vpnserver"
 
 if [ ! -z $1 ]; then
 	STACKID="$1";
