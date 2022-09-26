@@ -76,12 +76,12 @@ ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt install apt-transport-h
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable""
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo apt install -y docker.io"
-ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo curl -L "https://github.com/docker/compose/releases/download/v2.11.1/docker-compose-$(uname -s)-$(uname -m)" -o "/usr/local/bin/docker-compose""
-ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo chmod +x /usr/local/bin/docker-compose"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo sh -c \"echo '\n\nnet.core.default_qdisc=fq'>>/etc/sysctl.conf\""
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo sh -c \"echo '\nnet.ipv4.tcp_congestion_control=bbr'>>/etc/sysctl.conf\""
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo sysctl -p"
 ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo usermod -aG docker ubuntu"
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo curl -L "https://github.com/docker/compose/releases/download/v2.11.1/docker-compose-$(uname -s)-$(uname -m)" -o "/usr/local/bin/docker-compose""
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB "sudo chmod +x /usr/local/bin/docker-compose"
 
 echo
 echo "L2TP provisioning..."
