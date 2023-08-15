@@ -1,0 +1,31 @@
+DIR=`dirname $0`
+VLPHOME="$HOME/.vpn-launchpad"
+
+AMIID="ami-06d2974227738b60b"
+PROFILE="default"
+REGION="ap-southeast-2"
+INSTYPE="t2.micro"
+SSTCPPORT=`grep "SSTCPPORT=" $DIR/docker-shadowsocks-libev/shadowsocks-libev.sh |cut -d'=' -f2`
+SSUDPPORT=`grep "SSUDPPORT=" $DIR/docker-shadowsocks-libev/shadowsocks-libev.sh |cut -d'=' -f2`
+STACKID="vpnserver"
+IPPUB="13.26.26.175"
+
+ssh -i $VLPHOME/$STACKID-key.pem ubuntu@$IPPUB
+
+
+sudo apt update
+sudo apt install -y python-pip git
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+apt-cache policy docker-ce
+sudo apt install -y docker.io
+sudo curl -L https://github.com/docker/compose/releases/download/v2.11.1/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo sh -c \echo '\n\nnet.core.default_qdisc=fq'>>/etc/sysctl.conf\
+sudo sh -c \echo '\nnet.ipv4.tcp_congestion_control=bbr'>>/etc/sysctl.conf\
+sudo sysctl -p
+sudo usermod -aG docker ubuntu
+
+cd docker-sevpn; sh sevpn.sh
+cd docker-shadowsocks-libev; sh shadowsocks-libev.sh
